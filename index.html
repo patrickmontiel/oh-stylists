@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OH! Stylists — Palma de Mallorca</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=Caveat:wght@700&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #f0ebe3;
+      color: #1a1a1a;
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── TOKENS ────────────────────────────────────────── */
+    :root {
+      --bg:        #f0ebe3;
+      --bg2:       #e8e2d9;
+      --ink:       #1a1a1a;
+      --muted:     #8a7f74;
+      --pop1:      #d4503a;   /* terracota */
+      --pop2:      #e8c832;   /* amarillo */
+      --pop3:      #3a6b4a;   /* verde oscuro */
+      --border:    #d9d2c8;
+    }
+
+    /* ── BUTTONS ───────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .2s;
+      border: none;
+      border-radius: 0;
+    }
+    .btn-ink {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 14px 32px;
+    }
+    .btn-ink:hover { background: #333; }
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+      padding: 13px 32px;
+    }
+    .btn-outline:hover { background: var(--ink); color: var(--bg); }
+    .btn-pop {
+      background: var(--pop1);
+      color: #fff;
+      padding: 14px 32px;
+    }
+    .btn-pop:hover { background: #c04030; }
+    .btn-pill {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 9px 22px;
+      border-radius: 100px;
+      font-size: 12px;
+    }
+    .btn-pill:hover { background: #333; }
+
+    /* ── NAV ───────────────────────────────────────────── */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      transition: background .3s, padding .3s;
+    }
+    #nav.scrolled {
+      background: rgba(240,235,227,.94);
+      backdrop-filter: blur(10px);
+      padding: 16px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      color: var(--ink);
+    }
+    .nav-logo em { font-style: normal; color: var(--pop1); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 12px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #3d3830;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .nav-hamburger span {
+      display: block; width: 24px; height: 1.5px;
+      background: var(--ink); transition: all .3s;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed; inset: 0;
+      background: var(--bg);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px; font-weight: 300;
+      color: var(--ink);
+    }
+    .mobile-menu a:hover { color: var(--pop1); }
+    .mobile-close {
+      position: absolute; top: 24px; right: 48px;
+      font-size: 28px; cursor: pointer; color: var(--muted);
+    }
+
+    /* ── SECTION HELPERS ──────────────────────────────── */
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+    section { padding: 120px 0; }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .display {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      line-height: 1.0;
+      color: var(--ink);
+    }
+
+    /* ── STAMPS / BADGES ──────────────────────────────── */
+    .stamp {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      line-height: 1.3;
+      text-align: center;
+      pointer-events: none;
+      user-select: none;
+    }
+    .stamp-star {
+      background: var(--pop2);
+      color: var(--ink);
+      width: 160px; height: 160px;
+      font-size: 10px;
+      letter-spacing: .08em;
+      clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+    }
+    .stamp-oval {
+      background: var(--pop1);
+      color: #fff;
+      width: 120px; height: 72px;
+      border-radius: 50%;
+    }
+    .stamp-circle {
+      background: var(--pop3);
+      color: #fff;
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      font-size: 10px;
+    }
+
+    /* ── REVEAL ANIMATION ─────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.d1 { transition-delay: .1s; }
+    .reveal.d2 { transition-delay: .2s; }
+    .reveal.d3 { transition-delay: .35s; }
+    .reveal.d4 { transition-delay: .5s; }
+
+    /* ── 1. HERO ──────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 120px 48px 80px;
+      position: relative;
+    }
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg2);
+    }
+    .hero-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .hero-stamp-seal {
+      position: absolute;
+      bottom: 7%;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      opacity: .88;
+      transform: rotate(-8deg);
+      pointer-events: none;
+    }
+    .hero-stamp2 {
+      position: absolute;
+      top: 14%;
+      left: 24px;
+      transform: rotate(6deg);
+    }
+    .hero-inner { width: 100%; }
+    .hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(80px, 10vw, 180px);
+      font-weight: 400;
+      line-height: .92;
+      color: var(--ink);
+      letter-spacing: -.02em;
+      position: relative;
+    }
+    .hero-headline .oh { color: var(--pop1); }
+    .hero-sub-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(17px, 1.8vw, 24px);
+      font-weight: 300;
+      color: #3d3830;
+      max-width: 360px;
+      line-height: 1.5;
+    }
+    .hero-ctas { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .hero-by {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(22px, 2.4vw, 34px);
+      font-weight: 700;
+      color: var(--ink);
+      margin-top: 4px;
+      letter-spacing: .01em;
+      text-align: right;
+      display: block;
+      transform: rotate(-1.5deg);
+      transform-origin: right center;
+    }
+    /* doodle */
+    .doodle {
+      position: absolute;
+      opacity: .45;
+    }
+    @media (max-width: 860px) {
+      #hero { grid-template-columns: 1fr; grid-template-rows: auto 56vw; }
+      .hero-left { padding: 110px 24px 48px; justify-content: flex-end; }
+      .hero-right { min-height: 56vw; }
+      .hero-stamp-seal { width: 140px; height: 140px; left: -30px; bottom: 5%; }
+      .hero-stamp2 { top: 12px; left: 12px; }
+    }
+
+
+    /* ── 2. SERVICES ──────────────────────────────────── */
+    #services { background: var(--bg); }
+    .services-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 72px;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1.5px solid var(--ink);
+    }
+    .service-card {
+      padding: 40px 32px 36px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      transition: background .2s;
+      cursor: default;
+    }
+    .service-card:nth-child(3n) { border-right: none; }
+    .service-card:hover { background: var(--bg2); }
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 2vw, 30px);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .service-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .service-tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--pop1);
+      border-bottom: 1px solid var(--pop1);
+      padding-bottom: 2px;
+    }
+
+    /* ── 3. BOOKING ───────────────────────────────────── */
+    #booking {
+      background: var(--ink);
+      color: var(--bg);
+    }
+    #booking .eyebrow { color: rgba(240,235,227,.4); }
+    .booking-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .booking-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 6vw, 88px);
+      font-weight: 400;
+      line-height: 1.0;
+      color: var(--bg);
+    }
+    .booking-title em { font-style: italic; color: var(--pop2); }
+    .booking-body { font-size: 16px; color: rgba(240,235,227,.55); line-height: 1.8; margin-top: 24px; }
+    .booking-embed-box {
+      height: 480px;
+      border: 1px solid rgba(255,255,255,.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,.03);
+    }
+    .booking-embed-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: rgba(255,255,255,.2);
+    }
+    .booking-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 32px;
+      font-size: 14px;
+      color: var(--pop2);
+      letter-spacing: .04em;
+      border-bottom: 1px solid rgba(232,200,50,.3);
+      padding-bottom: 4px;
+      transition: border-color .2s;
+    }
+    .booking-wa:hover { border-color: var(--pop2); }
+
+    /* ── 4. BIO ───────────────────────────────────────── */
+    #bio { background: var(--bg); }
+    .bio-label-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+    .bio-label-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      gap: 80px;
+      align-items: start;
+    }
+    .bio-left {}
+    .bio-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(72px, 9vw, 140px);
+      font-weight: 300;
+      line-height: .9;
+      color: var(--ink);
+      letter-spacing: -.02em;
+    }
+    .bio-name .italic { font-style: italic; color: var(--muted); }
+    .bio-text {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 520px;
+      margin-top: 40px;
+    }
+    .bio-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 64px;
+      border-top: 1.5px solid var(--ink);
+    }
+    .stat {
+      padding: 32px 0 0;
+      border-right: 1px solid var(--border);
+      padding-right: 32px;
+      margin-right: 32px;
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 5vw, 72px);
+      font-weight: 300;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    /* bio full-bleed layout */
+    .bio-full-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 48px;
+      align-items: start;
+    }
+    .bio-photo-col {
+      background: var(--bg2);
+    }
+    .bio-photo {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .bio-content-col {
+      padding: 64px 64px 80px;
+      background: var(--bg);
+    }
+    .bio-stat-solo {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 32px 0 48px;
+      padding-bottom: 32px;
+      border-bottom: 1.5px solid var(--ink);
+    }
+    .bio-stat-solo .stat-num { font-size: clamp(48px, 5vw, 72px); }
+    .bio-stat-solo .stat-label { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+    /* credentials */
+    .creds { display: flex; flex-direction: column; gap: 36px; }
+    .cred-group {}
+    .cred-group-title {
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--pop1);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+    .cred-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.6;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cred-item:last-child { border-bottom: none; }
+    .cred-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+    .cred-dot--gold { background: var(--pop2); }
+
+    @media (max-width: 1024px) {
+      .bio-full-grid { grid-template-columns: 1fr; min-height: auto; }
+      .bio-photo-col { position: relative; height: 70vw; max-height: 560px; }
+      .bio-content-col { padding: 48px 24px 64px; }
+    }
+
+    /* ── 5. GALLERY ───────────────────────────────────── */
+    #gallery { background: var(--bg2); padding-top: 80px; padding-bottom: 80px; }
+    .gallery-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .masonry { columns: 4; column-gap: 10px; }
+    .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .masonry-ph {
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      transition: transform .45s ease;
+    }
+    .masonry-item:nth-child(odd)  .masonry-ph { aspect-ratio: 3/4; }
+    .masonry-item:nth-child(even) .masonry-ph { aspect-ratio: 1/1; }
+    .masonry-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(212,80,58,.18);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .masonry-item:hover::after { opacity: 1; }
+    .masonry-item:hover .masonry-ph { transform: scale(1.04); }
+    .gallery-icon { opacity: .15; }
+
+    /* lightbox */
+    #lightbox {
+      position: fixed; inset: 0;
+      background: rgba(26,26,26,.95);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+    .lb-inner { position: relative; }
+    .lb-ph {
+      background: var(--bg2);
+      width: clamp(280px, 55vw, 640px);
+      aspect-ratio: 3/4;
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 15px;
+    }
+    .lb-close {
+      position: absolute;
+      top: -48px; right: 0;
+      font-size: 13px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: rgba(240,235,227,.5);
+      transition: color .2s;
+    }
+    .lb-close:hover { color: var(--bg); }
+
+    /* ── 6. SEDE ──────────────────────────────────────── */
+    #sede { background: var(--bg); }
+    .sede-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .map-ph {
+      aspect-ratio: 4/3;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 14px;
+    }
+    .sede-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 40px;
+    }
+    .detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-icon { color: var(--pop1); flex-shrink: 0; margin-top: 2px; }
+    .detail-main { font-size: 15px; color: var(--ink); line-height: 1.6; }
+    .detail-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    /* ── 7. TESTIMONIALS ──────────────────────────────── */
+    #testimonials { background: var(--bg2); }
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+    }
+    .t-card {
+      background: var(--bg);
+      padding: 48px 40px 44px;
+    }
+    .t-quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 96px;
+      font-weight: 300;
+      line-height: .7;
+      color: var(--pop1);
+      margin-bottom: 24px;
+    }
+    .t-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    .t-author {
+      margin-top: 32px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .t-role { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    /* ── 8. FOOTER PREMIUM ───────────────────────────── */
+    #luxury-footer {
+      background: #0d0d0d;
+      color: #f5f1e8;
+      position: relative;
+      overflow: hidden;
+      font-family: 'DM Sans', sans-serif;
+    }
+    #luxury-footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .035;
+      pointer-events: none;
+      z-index: 0;
+    }
+    #luxury-footer > * { position: relative; z-index: 1; }
+
+    /* top bar */
+    .ft-topbar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 28px 56px;
+      border-bottom: 1px solid rgba(245,241,232,.07);
+    }
+    .ft-topbar-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: .08em;
+      color: rgba(245,241,232,.5);
+    }
+    .ft-topbar-logo em { font-style: normal; color: #e8c832; }
+    .ft-topbar-brand {
+      font-size: 10px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: rgba(245,241,232,.3);
+    }
+    .ft-topbar-menu {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .ft-menu-btn {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(245,241,232,.18);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: border-color .3s;
+    }
+    .ft-menu-btn:hover { border-color: rgba(245,241,232,.5); }
+    .ft-menu-btn span {
+      display: block;
+      width: 14px; height: 1px;
+      background: rgba(245,241,232,.5);
+    }
+
+    /* centerpiece */
+    .ft-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 56px 72px;
+      position: relative;
+      text-align: center;
+    }
+    .ft-deco {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: .12;
+      animation: ft-float 6s ease-in-out infinite;
+    }
+    .ft-deco-left  { left: 40px; }
+    .ft-deco-right { right: 40px; animation-delay: -3s; }
+    @keyframes ft-float {
+      0%,100% { transform: translateY(-50%) translateY(0); }
+      50%      { transform: translateY(-50%) translateY(-12px); }
+    }
+    .ft-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(72px, 12vw, 180px);
+      font-weight: 300;
+      line-height: .88;
+      letter-spacing: -.02em;
+      color: #f5f1e8;
+    }
+    .ft-title em { font-style: normal; color: #e8c832; }
+    .ft-subtitle {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(22px, 3vw, 42px);
+      color: rgba(245,241,232,.35);
+      margin-top: 20px;
+      display: block;
+    }
+
+    /* info columns */
+    .ft-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      border-top: 1px solid rgba(245,241,232,.07);
+      padding: 48px 56px 56px;
+    }
+    .ft-col { padding: 0 32px; }
+    .ft-col:first-child { padding-left: 0; border-right: 1px solid rgba(245,241,232,.07); }
+    .ft-col:last-child  { padding-right: 0; border-left: 1px solid rgba(245,241,232,.07); }
+    .ft-col-label {
+      font-size: 9px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: rgba(245,241,232,.25);
+      margin-bottom: 16px;
+    }
+    .ft-col-text {
+      font-size: 13px;
+      color: rgba(245,241,232,.42);
+      line-height: 1.8;
+    }
+    /* center col — website by */
+    .ft-col-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 10px;
+    }
+    .ft-by-label {
+      font-size: 9px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: rgba(245,241,232,.22);
+    }
+    .ft-by-text {
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(245,241,232,.45);
+    }
+    .ft-by-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 2.4vw, 32px);
+      font-weight: 400;
+      color: #f5f1e8;
+      letter-spacing: .04em;
+      cursor: default;
+      transition: color .35s, text-shadow .35s;
+      display: inline-block;
+    }
+    .ft-by-name:hover {
+      color: #e8c832;
+      text-shadow: 0 0 40px rgba(232,200,50,.25);
+    }
+    /* right col */
+    .ft-col-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .ft-barcode {
+      display: flex;
+      gap: 2px;
+      opacity: .2;
+      margin-bottom: 24px;
+    }
+    .ft-barcode span {
+      display: block;
+      width: 2px;
+      background: #f5f1e8;
+    }
+    .ft-back-top {
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(245,241,232,.3);
+      cursor: pointer;
+      transition: color .3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .ft-back-top:hover { color: #f5f1e8; }
+    .ft-back-top svg { transition: transform .3s; }
+    .ft-back-top:hover svg { transform: translateY(-3px); }
+
+    /* bottom */
+    .ft-bottom {
+      border-top: 1px solid rgba(245,241,232,.07);
+      padding: 20px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ft-copy {
+      font-size: 10px;
+      letter-spacing: .14em;
+      color: rgba(245,241,232,.18);
+    }
+    .ft-bottom-links { display: flex; gap: 24px; }
+    .ft-bottom-links a {
+      font-size: 10px;
+      letter-spacing: .1em;
+      color: rgba(245,241,232,.18);
+      transition: color .2s;
+    }
+    .ft-bottom-links a:hover { color: rgba(245,241,232,.5); }
+
+    @media (max-width: 768px) {
+      .ft-topbar { grid-template-columns: 1fr auto; padding: 20px 24px; }
+      .ft-topbar-brand { display: none; }
+      .ft-center { padding: 56px 24px 48px; }
+      .ft-deco { display: none; }
+      .ft-info { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; }
+      .ft-col, .ft-col:first-child, .ft-col:last-child {
+        padding: 0;
+        border: none;
+        border-top: 1px solid rgba(245,241,232,.07);
+        padding-top: 32px;
+      }
+      .ft-col:first-child { border-top: none; padding-top: 0; }
+      .ft-col-right { align-items: flex-start; }
+      .ft-barcode { margin-bottom: 20px; }
+      .ft-bottom { padding: 20px 24px; flex-direction: column; gap: 10px; text-align: center; }
+    }
+
+
+    /* ── MARQUEE ──────────────────────────────────────── */
+    .marquee-wrap {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 20px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-flex;
+      gap: 0;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 24px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 22px;
+      font-weight: 300;
+      padding: 0 32px;
+      color: rgba(240,235,227,.55);
+    }
+    .marquee-item .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--pop1);
+      flex-shrink: 0;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .masonry { columns: 2; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .service-card:nth-child(3n) { border-right: 1px solid var(--border); }
+      .service-card:nth-child(even) { border-right: none; }
+      .bio-grid { grid-template-columns: 1fr; }
+      .bio-portrait { max-width: 480px; }
+      .footer-top { grid-template-columns: 1fr; gap: 40px; }
+      .footer-right { align-items: flex-start; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 72px 0; }
+      .container { padding: 0 24px; }
+      #nav { padding: 20px 24px; }
+      #nav.scrolled { padding: 14px 24px; }
+      .nav-links, .btn-pill { display: none; }
+      .nav-hamburger { display: flex; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card:nth-child(3n),
+      .service-card:nth-child(even) { border-right: 1px solid var(--border); }
+      .booking-inner { grid-template-columns: 1fr; }
+      .bio-stats { grid-template-columns: 1fr 1fr; }
+      .sede-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .hero-stamp1, .hero-stamp2 { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a class="nav-logo" href="#hero"><em>OH!</em> Stylists</a>
+    <ul class="nav-links">
+      <li><a href="#services">Servicios</a></li>
+      <li><a href="#bio">Bio</a></li>
+      <li><a href="#gallery">Galería</a></li>
+      <li><a href="#sede">Sede</a></li>
+    </ul>
+    <a class="btn btn-pill" href="https://cal.com/ohstylists" target="_blank">Reservar</a>
+    <div class="nav-hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <span class="mobile-close" id="mobile-close">✕</span>
+    <a href="#services" class="mm-link">Servicios</a>
+    <a href="#bio" class="mm-link">Bio</a>
+    <a href="#gallery" class="mm-link">Galería</a>
+    <a href="#sede" class="mm-link">Sede</a>
+    <a class="btn btn-ink" href="https://cal.com/ohstylists" target="_blank" style="margin-top:16px">Reservar Cita</a>
+  </div>
+
+  <!-- ── 1. HERO ─────────────────────────────────────── -->
+  <section id="hero">
+
+    <!-- LEFT: text -->
+    <div class="hero-left">
+      <div class="hero-inner">
+        <div class="hero-headline reveal">
+          <span class="oh">OH!</span><br>Stylists.
+        </div>
+        <p class="hero-by reveal d1">by Jesús Machado</p>
+        <div class="hero-sub-row">
+          <p class="hero-tagline reveal d2">
+            Técnicas depuradas en los salones más exigentes del mundo.
+          </p>
+          <div class="hero-ctas reveal d3">
+            <a class="btn btn-ink" href="https://cal.com/ohstylists" target="_blank">Reservar Cita</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: photo + stamp -->
+    <div class="hero-right">
+      <img src="hero-barber.png" alt="Jesús Machado en acción" class="hero-photo" />
+    </div>
+
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marquee">
+      <span class="marquee-item">Corte Caballero <span class="dot"></span></span>
+      <span class="marquee-item">Barbería Premium <span class="dot"></span></span>
+      <span class="marquee-item">Mechas &amp; Color <span class="dot"></span></span>
+      <span class="marquee-item">Keratina <span class="dot"></span></span>
+      <span class="marquee-item">Corte y Secado <span class="dot"></span></span>
+      <span class="marquee-item">45 años de experiencia <span class="dot"></span></span>
+      <span class="marquee-item">Palma de Mallorca <span class="dot"></span></span>
+      <span class="marquee-item">Corte Caballero <span class="dot"></span></span>
+      <span class="marquee-item">Barbería Premium <span class="dot"></span></span>
+      <span class="marquee-item">Mechas &amp; Color <span class="dot"></span></span>
+      <span class="marquee-item">Keratina <span class="dot"></span></span>
+      <span class="marquee-item">Corte y Secado <span class="dot"></span></span>
+      <span class="marquee-item">45 años de experiencia <span class="dot"></span></span>
+      <span class="marquee-item">Palma de Mallorca <span class="dot"></span></span>
+    </div>
+  </div>
+
+  <!-- ── 2. SERVICES ────────────────────────────────── -->
+  <section id="services">
+    <div class="container">
+      <div class="services-top">
+        <div>
+          <h2 class="display reveal" style="font-size:clamp(48px,6vw,80px)">Servicios.</h2>
+        </div>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-num">01</div>
+          <div class="service-name">Corte Caballero</div>
+          <p class="service-desc">Personalizado con técnica artesanal, acabado navaja, masaje de cuero cabelludo y toalla caliente.</p>
+          <span class="service-tag">Barbería</span>
+        </div>
+        <div class="service-card reveal d1">
+          <div class="service-num">02</div>
+          <div class="service-name">Corte y Secado Damas</div>
+          <p class="service-desc">Diagnóstico capilar, corte de precisión y secado profesional adaptado a cada tipo de cabello.</p>
+          <span class="service-tag">Estilismo</span>
+        </div>
+        <div class="service-card reveal d2">
+          <div class="service-num">03</div>
+          <div class="service-name">Alisado Permanente</div>
+          <p class="service-desc">Keratina de alta gama, libre de formaldehído. Liso duradero y natural sin dañar la fibra.</p>
+          <span class="service-tag">Tratamiento</span>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-num">04</div>
+          <div class="service-name">Barbería</div>
+          <p class="service-desc">Perfilado y diseño de barba con navaja de filo recto. Vapor caliente y aceites de acabado premium.</p>
+          <span class="service-tag">Barbería</span>
+        </div>
+        <div class="service-card reveal d1">
+          <div class="service-num">05</div>
+          <div class="service-name">Mechas</div>
+          <p class="service-desc">Balayage, californiano, babylights — técnicas manuales adaptadas a tu tono y estructura natural.</p>
+          <span class="service-tag">Color</span>
+        </div>
+        <div class="service-card reveal d2">
+          <div class="service-num">06</div>
+          <div class="service-name">Color</div>
+          <p class="service-desc">Coloración completa con productos de máximo respeto capilar. Diagnóstico de tono y porosidad incluido.</p>
+          <span class="service-tag">Color</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 4. BIO ──────────────────────────────────────── -->
+  <section id="bio" style="padding-top:80px;padding-bottom:0;">
+    <div class="container">
+      <div class="bio-label-row">
+        <p class="eyebrow">El maestro detrás</p>
+        <div class="bio-label-line"></div>
+      </div>
+    </div>
+    <!-- full-bleed grid -->
+    <div class="bio-full-grid">
+      <!-- LEFT: photo -->
+      <div class="bio-photo-col reveal">
+        <img src="jesus-machado.png" alt="Jesús Machado — OH! Stylists" class="bio-photo" />
+      </div>
+      <!-- RIGHT: content -->
+      <div class="bio-content-col">
+        <h2 class="bio-name reveal">
+          <span class="italic">Jesús</span><br>Machado.
+        </h2>
+        <div class="bio-stat-solo reveal d1">
+          <span class="stat-num">45+</span>
+          <span class="stat-label">Años de experiencia</span>
+        </div>
+
+        <!-- Credentials grouped -->
+        <div class="creds reveal d2">
+          <div class="cred-group">
+            <div class="cred-group-title">Hollywood &amp; Cine</div>
+            <div class="cred-item"><span class="cred-dot"></span>Make-Up Artist — Ben Nye, Los Ángeles, EE.UU.</div>
+            <div class="cred-item"><span class="cred-dot"></span>Make-Up Artist — MGM &amp; Paramount Pictures, Los Ángeles, EE.UU.</div>
+            <div class="cred-item"><span class="cred-dot"></span>Colaborador de Kevyn Aucoin, maestro del maquillaje estadounidense</div>
+            <div class="cred-item"><span class="cred-dot"></span>Caracterizador Jefe — RTVE, Antena 3, Canal Nou</div>
+          </div>
+          <div class="cred-group">
+            <div class="cred-group-title">Maestros &amp; Formación</div>
+            <div class="cred-item"><span class="cred-dot"></span>Maestro Industrial de Peluquería</div>
+            <div class="cred-item"><span class="cred-dot"></span>Maestro Artesano del Consell Balear</div>
+            <div class="cred-item"><span class="cred-dot"></span>Discípulo de Eulogio Núñez, Jean Pierre Alexandre, Klaus Peter Ochs, Jean-Marc Maniatis y Vidal Sassoon</div>
+          </div>
+          <div class="cred-group">
+            <div class="cred-group-title">Reconocimientos</div>
+            <div class="cred-item"><span class="cred-dot cred-dot--gold"></span>Campeón de España — Peluquería Masculina</div>
+            <div class="cred-item"><span class="cred-dot cred-dot--gold"></span>Peine de Oro de Bellina</div>
+            <div class="cred-item"><span class="cred-dot cred-dot--gold"></span>Rosa de Oro de París</div>
+            <div class="cred-item"><span class="cred-dot cred-dot--gold"></span>Director del Equipo Nacional de Peluquería Femenina de España</div>
+            <div class="cred-item"><span class="cred-dot cred-dot--gold"></span>Presidente — Asociación Peluqueros del Mundo Madrid</div>
+            <div class="cred-item"><span class="cred-dot cred-dot--gold"></span>Reconocimientos en el ámbito cinematográfico y teatral</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 5. GALLERY ─────────────────────────────────── -->
+  <section id="gallery">
+    <div class="container">
+      <div class="gallery-header">
+        <div>
+          <p class="eyebrow reveal">Nuestro trabajo</p>
+          <h2 class="display reveal d1" style="font-size:clamp(48px,6vw,80px)">Galería.</h2>
+        </div>
+        <a href="https://www.instagram.com/ohpalma/" target="_blank" rel="noopener"
+           class="reveal d1"
+           style="display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:4px;transition:color .2s,border-color .2s;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+          @ohpalma
+        </a>
+      </div>
+
+      <!-- ─ Behold.so Instagram feed widget ───────────────
+           Pasos para activar:
+           1. Crea cuenta gratis en https://behold.so
+           2. Conecta @ohpalma en "Sources"
+           3. Crea un widget tipo "Grid" y copia tu Widget ID
+           4. Reemplaza TU_WIDGET_ID a continuación
+      ──────────────────────────────────────────────────── -->
+      <div id="behold-widget-TU_WIDGET_ID"></div>
+      <script type="module" src="https://w.behold.so/widget.js"></script>
+
+      <!-- Fallback mientras no está conectado Behold -->
+      <div class="masonry" id="masonry"></div>
+    </div>
+  </section>
+
+  <!-- lightbox -->
+  <div id="lightbox">
+    <div class="lb-inner">
+      <span class="lb-close" id="lb-close">Cerrar ✕</span>
+      <div class="lb-ph">[ imagen galería ]</div>
+    </div>
+  </div>
+
+  <!-- ── 6. SEDE ─────────────────────────────────────── -->
+  <section id="sede">
+    <div class="container">
+      <div class="sede-grid">
+        <div>
+          <p class="eyebrow reveal">Dónde encontrarnos</p>
+          <div class="sede-title reveal d1">OH! Palma.</div>
+          <div class="detail reveal d2">
+            <svg class="detail-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-6.5-7-11a7 7 0 0114 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <div>
+              <div class="detail-main">Av. del Císter #29, Local 1</div>
+              <div class="detail-sub">Es Secar de la Real · 07010 Palma de Mallorca</div>
+            </div>
+          </div>
+          <div class="detail reveal d2">
+            <svg class="detail-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.1 1.21 2 2 0 012.11 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
+            <div>
+              <div class="detail-main">+34 871 030 202</div>
+            </div>
+          </div>
+          <div class="detail reveal d2">
+            <svg class="detail-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div>
+              <div class="detail-main">Lun – Sáb</div>
+              <div class="detail-sub">8:30 – 20:30</div>
+            </div>
+          </div>
+          <div style="margin-top:32px" class="reveal d3">
+            <a class="btn btn-ink" href="https://maps.google.com/?q=Av+del+Cister+29+Palma+Mallorca" target="_blank">
+              Cómo llegar →
+            </a>
+          </div>
+        </div>
+        <div class="reveal d1" style="width:100%;overflow:hidden;border:1px solid var(--border)">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3073.847728974791!2d2.633930274684312!3d39.60811250445937!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x129792b91e21d5ad%3A0xc5e818efbea9c5b7!2sOh*21%20Palma%20-%20Barbers%20%26%20Stylists!5e0!3m2!1ses!2ses!4v1778668205815!5m2!1ses!2ses" width="100%" height="420" style="border:0;display:block;filter:grayscale(20%);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="OH! Stylists en Google Maps"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 7. TESTIMONIALS ────────────────────────────── -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="testimonials-header">
+        <p class="eyebrow reveal">Clientes</p>
+        <h2 class="display reveal d1" style="font-size:clamp(48px,6vw,80px)">Lo que dicen.</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="t-card reveal">
+          <div class="t-quote-mark">"</div>
+          <p class="t-text">¡Buen sitio! muy bonito y acogedor, Jesús como siempre un profesional como la copa de un pino.</p>
+          <div class="t-author">José Antonio Vera</div>
+          <div class="t-role">Cliente</div>
+        </div>
+        <div class="t-card reveal d1">
+          <div class="t-quote-mark">"</div>
+          <p class="t-text">Nadie como él. Cuida de los suyos como si fueran familia.</p>
+          <div class="t-author">Alex Álvarez Alfonso</div>
+          <div class="t-role">Cliente habitual</div>
+        </div>
+        <div class="t-card reveal d2">
+          <div class="t-quote-mark">"</div>
+          <p class="t-text">¡Sales feliz y guapa! No hay nada más que añadir.</p>
+          <div class="t-author">Sasha Malyugina</div>
+          <div class="t-role">Clienta</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 8. FOOTER PREMIUM ────────────────────────── -->
+  <footer id="luxury-footer">
+
+    <!-- TOP BAR -->
+    <div class="ft-topbar reveal">
+      <div class="ft-topbar-logo"><em>OH!</em> Stylists</div>
+      <div class="ft-topbar-brand">Palma de Mallorca</div>
+      <div class="ft-topbar-menu">
+        <a href="#hero" class="ft-menu-btn" aria-label="Volver arriba">
+          <span></span><span></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- CENTERPIECE -->
+    <div class="ft-center reveal">
+      <!-- Deco left -->
+      <svg class="ft-deco ft-deco-left" width="80" height="220" viewBox="0 0 80 220" fill="none" stroke="#f5f1e8" stroke-width=".8">
+        <line x1="40" y1="0" x2="40" y2="220"/>
+        <circle cx="40" cy="40"  r="14"/>
+        <circle cx="40" cy="110" r="6"/>
+        <circle cx="40" cy="180" r="20"/>
+        <line x1="0"  y1="110" x2="80" y2="110"/>
+        <line x1="14" y1="40"  x2="66" y2="40"/>
+      </svg>
+      <!-- Deco right -->
+      <svg class="ft-deco ft-deco-right" width="80" height="220" viewBox="0 0 80 220" fill="none" stroke="#f5f1e8" stroke-width=".8">
+        <line x1="40" y1="0" x2="40" y2="220"/>
+        <circle cx="40" cy="40"  r="20"/>
+        <circle cx="40" cy="110" r="6"/>
+        <circle cx="40" cy="180" r="14"/>
+        <line x1="0"  y1="110" x2="80" y2="110"/>
+        <line x1="14" y1="180" x2="66" y2="180"/>
+      </svg>
+      <!-- Text -->
+      <div>
+        <div class="ft-title"><em>OH!</em><br>Stylists.</div>
+        <span class="ft-subtitle">Artesanía del estilo desde Palma</span>
+      </div>
+    </div>
+
+    <!-- INFO AREA -->
+    <div class="ft-info">
+      <!-- LEFT -->
+      <div class="ft-col reveal">
+        <div class="ft-col-label">Estudio</div>
+        <p class="ft-col-text">
+          Av. del Císter #29, Local 1<br>
+          Es Secar de la Real<br>
+          07010 Palma de Mallorca<br><br>
+          Lun – Sáb · 8:30 – 20:30<br>
+          +34 871 030 202
+        </p>
+      </div>
+      <!-- CENTER -->
+      <div class="ft-col ft-col-center reveal d1">
+        <span class="ft-by-label">Desarrollado por</span>
+        <span class="ft-by-text">WEBSITE BY</span>
+        <span class="ft-by-name">Patrick Montiel</span>
+      </div>
+      <!-- RIGHT -->
+      <div class="ft-col ft-col-right reveal d2">
+        <div class="ft-barcode" id="ft-barcode"></div>
+        <button class="ft-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2">
+            <polyline points="2,8 6,4 10,8"/>
+          </svg>
+          Back to top
+        </button>
+      </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="ft-bottom">
+      <span class="ft-copy">© 2025 Oh! Stylists · Palma de Mallorca · Todos los derechos reservados</span>
+      <div class="ft-bottom-links">
+        <a href="#">Privacidad</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+
+  </footer>
+
+
+  <script>
+    // NAV scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Mobile menu
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.add('open');
+    });
+    document.getElementById('mobile-close').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.remove('open');
+    });
+    document.querySelectorAll('.mm-link').forEach(l => {
+      l.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'));
+    });
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Hero immediate reveal
+    window.addEventListener('load', () => {
+      document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
+    });
+
+    // Gallery masonry
+    const masonry = document.getElementById('masonry');
+    const scissorsSVG = `<svg class="gallery-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#8a7f74" stroke-width="1"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>`;
+    for (let i = 0; i < 8; i++) {
+      const item = document.createElement('a');
+      item.className = 'masonry-item';
+      item.href = 'https://www.instagram.com/ohpalma/';
+      item.target = '_blank';
+      item.rel = 'noopener noreferrer';
+      item.innerHTML = `<div class="masonry-ph">${scissorsSVG}</div>`;
+      masonry.appendChild(item);
+    }
+
+    // Lightbox
+    document.getElementById('lb-close').addEventListener('click', () => {
+      document.getElementById('lightbox').classList.remove('open');
+    });
+    document.getElementById('lightbox').addEventListener('click', e => {
+      if (e.target === document.getElementById('lightbox'))
+        document.getElementById('lightbox').classList.remove('open');
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+    });
+
+    // Marquee duplicate for seamless loop
+    const track = document.getElementById('marquee');
+    track.innerHTML += track.innerHTML;
+
+    // Footer barcode generator
+    const bc = document.getElementById('ft-barcode');
+    if (bc) {
+      const heights = [32,18,44,24,36,14,48,20,38,16,42,28,34,12,46,22,40,18,36,26,44,14,32,48,20];
+      heights.forEach(h => {
+        const s = document.createElement('span');
+        s.style.height = h + 'px';
+        bc.appendChild(s);
+      });
+    }
+  </script>
+</body>
+</html>
