@@ -846,9 +846,18 @@
       text-transform: uppercase;
       color: rgba(245,241,232,.45);
     }
+    .ft-by-logo {
+      width: 120px;
+      opacity: .7;
+      mix-blend-mode: screen;
+      display: block;
+      margin: 0 auto 4px;
+      transition: opacity .3s;
+    }
+    .ft-by-logo:hover { opacity: 1; }
     .ft-by-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(22px, 2.4vw, 32px);
+      font-size: clamp(13px, 1.2vw, 16px);
       font-weight: 400;
       color: #f5f1e8;
       letter-spacing: .04em;
@@ -1344,7 +1353,7 @@
       <!-- CENTER -->
       <div class="ft-col ft-col-center reveal d1">
         <span class="ft-by-label">Desarrollado por</span>
-        <span class="ft-by-text">WEBSITE BY</span>
+        <img src="lessio-logo.png" alt="Lessio AI" class="ft-by-logo" />
         <span class="ft-by-name">Patrick Montiel</span>
       </div>
       <!-- RIGHT -->
