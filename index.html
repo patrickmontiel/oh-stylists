@@ -323,54 +323,57 @@
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 72px;
+      margin-bottom: 40px;
       gap: 32px;
       flex-wrap: wrap;
     }
     .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 32px;
       border-top: 1.5px solid var(--ink);
     }
     .service-card {
-      padding: 40px 32px 36px;
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 14px 28px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      background: var(--bg);
       position: relative;
-      transition: background .2s;
+      transition: transform .22s ease, background .22s, border-color .22s, box-shadow .22s;
       cursor: default;
+      overflow: hidden;
     }
-    .service-card:nth-child(3n) { border-right: none; }
-    .service-card:hover { background: var(--bg2); }
-    .service-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 20px;
+    .service-card:hover {
+      transform: scale(1.07);
+      background: var(--ink);
+      border-color: var(--ink);
+      box-shadow: 0 8px 28px rgba(26,26,26,.14);
     }
+    .service-num { display: none; }
     .service-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(22px, 2vw, 30px);
+      font-size: clamp(18px, 1.6vw, 22px);
       font-weight: 400;
       color: var(--ink);
       line-height: 1.2;
-      margin-bottom: 12px;
+      transition: color .22s;
     }
-    .service-desc {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
+    .service-card:hover .service-name { color: var(--bg); }
+    .service-desc { display: none; }
     .service-tag {
       display: inline-block;
-      margin-top: 20px;
-      font-size: 10px;
+      margin-top: 4px;
+      font-size: 9px;
       letter-spacing: .14em;
       text-transform: uppercase;
       color: var(--pop1);
-      border-bottom: 1px solid var(--pop1);
-      padding-bottom: 2px;
+      transition: color .22s;
     }
+    .service-card:hover .service-tag { color: var(--pop2); }
 
     /* ── 3. BOOKING ───────────────────────────────────── */
     #booking {
@@ -519,8 +522,29 @@
     .bio-stat-solo .stat-label { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 
     /* credentials */
-    .creds { display: flex; flex-direction: column; gap: 36px; }
-    .cred-group {}
+    .creds {
+      display: flex;
+      flex-direction: row;
+      gap: 0;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .creds::-webkit-scrollbar { height: 4px; }
+    .creds::-webkit-scrollbar-track { background: transparent; }
+    .creds::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .cred-group {
+      min-width: 280px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      padding-right: 40px;
+      border-right: 1px solid var(--border);
+      margin-right: 40px;
+    }
+    .cred-group:last-child { border-right: none; margin-right: 0; padding-right: 0; }
     .cred-group-title {
       font-size: 10px;
       letter-spacing: .2em;
@@ -987,6 +1011,11 @@
       to   { transform: translateX(-50%); }
     }
 
+    /* ── CAL FLOATING BUTTON ─────────────────────────── */
+    [data-cal-namespace] iframe,
+    div[style*="position: fixed"][style*="bottom"] > div,
+    #cal-floating-button-citas { transform: scale(0.72) !important; transform-origin: bottom right !important; }
+
     /* ── RESPONSIVE ───────────────────────────────────── */
     @media (max-width: 1024px) {
       .masonry { columns: 2; }
@@ -1017,11 +1046,9 @@
       .hero-stamp-seal { display: none; }
 
       /* ─ Services ─ */
-      .services-top { margin-bottom: 32px; }
-      .services-grid { grid-template-columns: 1fr; }
-      .service-card { padding: 28px 20px 24px; }
-      .service-card:nth-child(3n),
-      .service-card:nth-child(even) { border-right: none; }
+      .services-top { margin-bottom: 24px; }
+      .services-grid { gap: 10px; padding-top: 24px; }
+      .service-card { padding: 12px 22px 14px; }
 
       /* ─ Bio ─ */
       #bio { padding-top: 0 !important; }
