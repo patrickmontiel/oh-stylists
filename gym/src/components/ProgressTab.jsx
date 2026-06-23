@@ -10,9 +10,9 @@ import { getWeightHistory, countWeekSessions, getWeekStart } from '../useStorage
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Filler)
 
 const C = {
-  card: '#1C1C1E', card2: '#2C2C2E', border: '#3A3A3C',
-  text: '#FFF', sub: '#8E8E93', green: '#30D158', blue: '#0A84FF',
-  orange: '#FF9F0A',
+  card: '#FFFFFF', card2: '#F2F2F7', border: '#D1D1D6',
+  text: '#000000', sub: '#8E8E93', green: '#34C759', blue: '#007AFF',
+  orange: '#FF9500',
 }
 
 const ALL_EXERCISES = Object.values(WORKOUT_DAYS).flatMap(d => d.exercises || [])
@@ -69,12 +69,12 @@ export default function ProgressTab({ data }) {
   const chartOptions = {
     responsive: true,
     plugins: { legend: { display: false }, tooltip: {
-      backgroundColor: '#2C2C2E', titleColor: '#FFF', bodyColor: '#8E8E93',
-      borderColor: '#3A3A3C', borderWidth: 1,
+      backgroundColor: '#FFFFFF', titleColor: '#000', bodyColor: '#8E8E93',
+      borderColor: '#D1D1D6', borderWidth: 1,
     }},
     scales: {
-      x: { grid: { color: '#3A3A3C44' }, ticks: { color: C.sub, font: { size: 11 } } },
-      y: { grid: { color: '#3A3A3C44' }, ticks: { color: C.sub, font: { size: 11 } } }
+      x: { grid: { color: '#D1D1D644' }, ticks: { color: C.sub, font: { size: 11 } } },
+      y: { grid: { color: '#D1D1D644' }, ticks: { color: C.sub, font: { size: 11 } } }
     }
   }
 

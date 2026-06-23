@@ -7,9 +7,9 @@ import BodyTab from './components/BodyTab.jsx'
 import NutritionTab from './components/NutritionTab.jsx'
 
 const C = {
-  bg: '#000', card: '#1C1C1E', card2: '#2C2C2E', border: '#3A3A3C',
-  text: '#FFF', sub: '#8E8E93', green: '#30D158', blue: '#0A84FF',
-  orange: '#FF9F0A', red: '#FF3B30', purple: '#BF5AF2',
+  bg: '#F2F2F7', card: '#FFFFFF', card2: '#F2F2F7', border: '#D1D1D6',
+  text: '#000000', sub: '#8E8E93', green: '#34C759', blue: '#007AFF',
+  orange: '#FF9500', red: '#FF3B30', purple: '#AF52DE',
 }
 
 const ALL_EXERCISES = Object.values(WORKOUT_DAYS).flatMap(d => d.exercises || [])
@@ -38,7 +38,7 @@ function SummaryHeader({ data }) {
 
   return (
     <div style={{
-      background: 'linear-gradient(180deg, #1C1C1E 0%, #000 100%)',
+      background: C.card,
       padding: '16px 16px 12px',
       borderBottom: `1px solid ${C.border}`,
     }}>
@@ -139,7 +139,7 @@ export default function App() {
       <nav style={{
         position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)',
         width: '100%', maxWidth: 430,
-        background: 'rgba(28,28,30,0.92)', backdropFilter: 'blur(20px) saturate(180%)',
+        background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(20px) saturate(180%)',
         WebkitBackdropFilter: 'blur(20px) saturate(180%)',
         borderTop: `1px solid ${C.border}`,
         padding: '8px 0 max(8px, env(safe-area-inset-bottom))',

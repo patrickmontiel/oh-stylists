@@ -4,9 +4,9 @@ import { sessionKey, getToday, shouldProgressWeight } from '../useStorage.js'
 import ExerciseCard from './ExerciseCard.jsx'
 
 const C = {
-  bg: '#000', card: '#1C1C1E', card2: '#2C2C2E', border: '#3A3A3C',
-  text: '#FFF', sub: '#8E8E93', green: '#30D158', blue: '#0A84FF',
-  orange: '#FF9F0A', red: '#FF3B30',
+  bg: '#F2F2F7', card: '#FFFFFF', card2: '#F2F2F7', border: '#D1D1D6',
+  text: '#000000', sub: '#8E8E93', green: '#34C759', blue: '#007AFF',
+  orange: '#FF9500', red: '#FF3B30',
 }
 
 const DAY_COLORS = ['', '#FF6B35', '#4FC3F7', '#81C784', '#FF6B35', '#4FC3F7', '#CE93D8', '#8E8E93']
